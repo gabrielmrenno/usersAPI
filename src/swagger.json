@@ -1,0 +1,164 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "UsersAPI documentation",
+        "description": "This is an API of users made by a challange",
+        "version": "1.0.0",
+        "contact": {
+            "email": "gabrielmrenno@gmail.com",
+            "name": "Gabriel Martins Rennó"
+        }
+    },
+    "paths": {
+        "/users":{
+            "post": {
+                "tags": ["Users"],
+                "description": "Creating user",
+                "requestBody": {
+                    "content": {
+                        "application/json":{
+                            "schema":{
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "name": "Name test",
+                                    "email": "test@email.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "User already exists"
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Users"],
+                "description": "",
+                "parameters": [{
+                    "name": "user_id",
+                    "in": "header",
+                    "description": "user's id that is requesting the user list",
+                    "required": true,
+                    "schema":{
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "style": "simple"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json":{
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/user"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description": "User doesn't exist or doesn't have permission"
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/admin":{
+            "patch": {
+                "tags": ["Users"],
+                "description": "Turn a user in admin",
+                "parameters": [{
+                    "name": "user_id",
+                    "in": "path",
+                    "description": "User to be turned in admin",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/users/{user_id}":{
+            "get": {
+                "tags": ["Users"],
+                "description": "",
+                "parameters": [{
+                    "name": "user_id",
+                    "in": "path",
+                    "description": "User",
+                    "required": true,
+                    "schema":{
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "User details",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/user"    
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    },
+
+    "components": {
+        "schemas": {
+            "user":{
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "admin":{
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                }
+            }
+
+        }
+    }
+}
