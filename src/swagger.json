@@ -18,15 +18,7 @@
                     "content": {
                         "application/json":{
                             "schema":{
-                                "type": "object",
-                                "properties": {
-                                    "name": {
-                                        "type": "string"
-                                    },
-                                    "email": {
-                                        "type": "string"
-                                    }
-                                },
+                                "$ref": "#/components/schemas/createUser",
                                 "example": {
                                     "name": "Name test",
                                     "email": "test@email.com"
@@ -94,7 +86,10 @@
                 }],
                 "responses": {
                     "200": {
-                        "description": "OK"
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "User doesn't exists"
                     }
                 }
             }
@@ -155,6 +150,18 @@
                     "updated_at": {
                         "type": "string",
                         "format": "date"
+                    }
+                }
+            },
+            "createUser": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string",
+                        "format": "email"
                     }
                 }
             }
